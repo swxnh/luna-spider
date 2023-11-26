@@ -1,0 +1,12 @@
+{
+  "analysis": {
+    "analyzer": {
+      "html_analyzer": {
+        "tokenizer": "ik_max_word",
+        "char_filter": [
+            "html_strip"
+        ]
+      }
+    }
+  }
+}
