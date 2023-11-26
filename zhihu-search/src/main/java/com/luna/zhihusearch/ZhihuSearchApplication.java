@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author 文轩
@@ -12,6 +13,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 @SpringBootApplication
 @EnableCaching
 @EnableFeignClients(basePackages = "com.luna.zhihusearch.service")
+@EnableScheduling
 public class ZhihuSearchApplication {
 
     public static void main(String[] args) {
