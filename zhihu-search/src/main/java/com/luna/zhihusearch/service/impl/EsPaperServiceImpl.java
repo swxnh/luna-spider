@@ -212,6 +212,7 @@ public class EsPaperServiceImpl implements EsPaperService {
         } else {
             //存入es
             esPaperRepository.saveAll(lastUpdateEsPaperList);
+            log.info("存入es成功");
         }
     }
 
