@@ -120,7 +120,7 @@
 
     <repositories>
         <repository>
-            <id>projectlombok.org</id>
+            <id>org.projectlombok</id>
             <url>https://projectlombok.org/edge-releases</url>
         </repository>
     </repositories>

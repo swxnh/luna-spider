@@ -9,15 +9,18 @@ import feign.Response;
 import feign.Util;
 import feign.codec.DecodeException;
 import feign.codec.Decoder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * @author 文轩
  */
-
+@Slf4j
 public class FeignResultDecoder implements Decoder {
 
 
@@ -32,17 +35,21 @@ public class FeignResultDecoder implements Decoder {
         if (response.body() == null) {
             throw new DecodeException(response.status(), "没有返回有效的数据", response.request());
         }
-        String bodyStr = Util.toString(response.body().asReader(Util.UTF_8));
+
+        TypeFactory typeFactory = objectMapper.getTypeFactory();
         //对结果进行转换,使用jackjson转换
         ResponseResult<?> result;
         try {
-            JavaType javaType = TypeFactory.defaultInstance().constructType(type);
-            result = objectMapper.readValue(bodyStr, javaType);
+            result = objectMapper.readValue(response.body().asInputStream(),
+                    typeFactory.constructParametricType(ResponseResult.class, typeFactory.constructType(type)));
         } catch (Exception e) {
             //如果转换失败，则直接抛出异常 IllegalArgumentException
             throw new IllegalArgumentException("接口返回数据转换失败", e);
         }
 
+        if (type instanceof ResponseResult) {
+            return result;
+        }
 
         //如果返回错误，且为内部错误，则直接抛出异常
         if (result.getCode() != 200) {
@@ -50,5 +57,16 @@ public class FeignResultDecoder implements Decoder {
         }
         return result.getData();
     }
+
+//    public static void main(String[] args) throws IOException {
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        //读取文件
+//        String string = Files.readString(Paths.get("C:\\Users\\文轩\\Desktop\\test.json"));
+//
+//        ResponseResult responseResult = objectMapper.readValue(string, ResponseResult.class);
+//
+//        System.out.println(responseResult);
+//
+//    }
 
 }

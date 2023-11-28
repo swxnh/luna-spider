@@ -14,7 +14,7 @@ import java.util.List;
  * @author 文轩
  * 知乎专栏服务rpc接口
  */
-@FeignClient(value = "zhihu-spider", path = "/zhihu/spider/column")
+@FeignClient(name = "zhihu-spider", path = "/zhihu/spider/column")
 public interface ZhihuSpiderColumnService {
 
     /**
