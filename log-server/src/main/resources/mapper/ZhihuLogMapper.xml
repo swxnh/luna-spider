@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.luna.logserver.mapper.ZhihuLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.luna.common.pojo.log.ZhihuLog">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="module" column="module" jdbcType="VARCHAR"/>
+            <result property="method" column="method" jdbcType="VARCHAR"/>
+            <result property="useFunction" column="use_function" jdbcType="VARCHAR"/>
+            <result property="argsJson" column="args_json" jdbcType="OTHER"/>
+            <result property="time" column="time" jdbcType="INTEGER"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="ipAddr" column="ip_addr" jdbcType="VARCHAR"/>
+            <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+            <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,module,method,
+        use_function,args_json,time,
+        user_id,ip_addr,start_time,
+        end_time,create_time
+    </sql>
+    <insert id="saveLog">
+        insert into t_zhihu_log (id,module,method,use_function,args_json,time,user_id,ip_addr,start_time,end_time,create_time)
+        values (#{id},#{module},#{method},#{useFunction},
+                #{argsJson,typeHandler=com.luna.logserver.handler.JsonbTypeHandler},
+                #{time},#{userId},#{ipAddr},#{startTime},#{endTime},now())
+    </insert>
+    <insert id="saveLogList">
+        insert into t_zhihu_log (id,module,method,use_function,args_json,time,user_id,ip_addr,start_time,end_time,create_time)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id},#{item.module},#{item.method},#{item.useFunction},
+            #{item.argsJson,typeHandler=com.luna.logserver.handler.JsonbTypeHandler},
+            #{item.time},#{item.userId},#{item.ipAddr},#{item.startTime},#{item.endTime},now())
+        </foreach>
+    </insert>
+    <delete id="delete">
+        delete from t_zhihu_log
+        where id in (
+            <foreach collection="list" item="item" index="index" separator=",">
+                #{item}
+            </foreach>
+        )
+    </delete>
+    <select id="queryList" resultType="com.luna.common.pojo.log.ZhihuLog">
+        select
+         id, module, method, use_function, args_json, time, user_id, ip_addr, start_time, end_time, create_time
+        from t_zhihu_log
+        <where>
+            <if test="module != null and module != ''">
+                and module = #{module}
+            </if>
+            <if test="method != null and method != ''">
+                and method = #{method}
+            </if>
+            <if test="useFunction != null and useFunction != ''">
+                and use_function = #{useFunction}
+            </if>
+            <if test="userId != null and userId != ''">
+                and user_id = #{userId}
+            </if>
+            <if test="ipAddr != null and ipAddr != ''">
+                and ip_addr = #{ipAddr}
+            </if>
+            <if test="startTime != null and startTime != ''">
+                and start_time &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                and end_time &lt;= #{endTime}
+            </if>
+        </where>
+        order by id desc
+    </select>
+</mapper>
