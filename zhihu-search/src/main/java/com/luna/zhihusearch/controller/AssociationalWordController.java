@@ -1,12 +1,12 @@
 package com.luna.zhihusearch.controller;
 
+import com.luna.common.anno.ZhihuSystemLog;
+import com.luna.common.enmu.Method;
+import com.luna.common.enmu.Module;
 import com.luna.zhihusearch.service.AssociationalWordServer;
 import com.luna.common.utils.ResponseResult;
 import com.luna.common.vo.zhihusearch.AssociationalWordVO;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/associationalWord")
 @CrossOrigin(origins = "*")
+@ZhihuSystemLog(model = Module.ASSOCIATIONAL_WORD)
 public class AssociationalWordController {
 
     private final AssociationalWordServer associationalWordServer;
@@ -29,7 +30,8 @@ public class AssociationalWordController {
     /**
      * 获取关联词
      */
-    @RequestMapping("/getAssociationalWord")
+    @ZhihuSystemLog(method = Method.SEARCH)
+    @GetMapping("")
     public ResponseResult<List<AssociationalWordVO>> getAssociationalWord(@RequestParam String keyword) {
         return ResponseResult.ok(associationalWordServer.getAssociationalWord(keyword));
 

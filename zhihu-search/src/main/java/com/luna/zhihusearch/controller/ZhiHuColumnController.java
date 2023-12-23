@@ -1,5 +1,8 @@
 package com.luna.zhihusearch.controller;
 
+import com.luna.common.anno.ZhihuSystemLog;
+import com.luna.common.enmu.Method;
+import com.luna.common.enmu.Module;
 import com.luna.common.pojo.zhihuspider.EsPaper;
 import com.luna.zhihusearch.service.EsPaperService;
 import com.luna.common.utils.ResponseResult;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/column")
 @CrossOrigin(origins = "*")
+@ZhihuSystemLog(model = Module.ARTICLE)
 public class ZhiHuColumnController {
 
 
@@ -28,42 +32,11 @@ public class ZhiHuColumnController {
         this.esPaperService = esPaperService;
     }
 
-//    /**
-//     * 专栏列表
-//     */
-//    @RequestMapping("/list")
-//    public ResponseResult<List<ColumnVo>> list(@RequestParam(defaultValue = "") Integer page,
-//                                               @RequestParam(defaultValue = "") Integer size){
-//        if (page == null || page < 1) {
-//            page = 1;
-//        }
-//        if (size == null || size < 1 || size > 10) {
-//            size = 10;
-//        }
-//
-//        return ResponseResult.ok(columnService.list(page, size));
-//    }
-
-//    /**
-//     * 专栏文章列表
-//     */
-//    @RequestMapping("/article/list")
-//    public ResponseResult<List<Paper>> articleList(@RequestParam(defaultValue = "") Integer page,
-//                                                   @RequestParam(defaultValue = "") Integer size){
-//        if (page == null || page < 1) {
-//            page = 1;
-//        }
-//        if (size == null || size < 1 || size > 10) {
-//            size = 10;
-//        }
-//
-//        return ResponseResult.ok(paperService.list(page, size));
-//    }
 
     /**
      * 文章搜索
      */
-    @RequestMapping("/article/search/content")
+    @RequestMapping("/article/content")
     public ResponseResult<Page<EsPaper>> articleSearch(@RequestParam(defaultValue = "") String keyword,
                                                        @RequestParam(defaultValue = "") Integer page,
                                                        @RequestParam(defaultValue = "") Integer size){
@@ -80,7 +53,7 @@ public class ZhiHuColumnController {
     /**
      * 文章标题搜索
      */
-    @RequestMapping("/article/search/title")
+    @RequestMapping("/article/title")
     public ResponseResult<Page<EsPaper>> articleSearchTitle(@RequestParam(defaultValue = "") String keyword,
                                                             @RequestParam(defaultValue = "") Integer page,
                                                             @RequestParam(defaultValue = "") Integer size){
@@ -98,7 +71,7 @@ public class ZhiHuColumnController {
     /**
      * 摘要搜索(包括标题和正文)
      */
-    @RequestMapping("/article/search/excerpt")
+    @RequestMapping("/article/excerpt")
     public ResponseResult<Page<EsPaper>> articleSearchExcerpt(@RequestParam(defaultValue = "") String keyword,
                                                               @RequestParam(defaultValue = "") Integer page,
                                                               @RequestParam(defaultValue = "") Integer size){
@@ -115,7 +88,8 @@ public class ZhiHuColumnController {
     /**
      * 全文搜索
      */
-    @RequestMapping("/article/search/all")
+    @ZhihuSystemLog(method = Method.SEARCH)
+    @RequestMapping("/article/all")
     public ResponseResult<Page<EsPaper>> articleSearchAll(@RequestParam(defaultValue = "") String keyword,
                                                           @RequestParam(defaultValue = "") Integer page,
                                                           @RequestParam(defaultValue = "") Integer size){
@@ -125,8 +99,6 @@ public class ZhiHuColumnController {
         if (size == null || size < 1 || size > 10) {
             size = 10;
         }
-        //判断是否是虚拟线程
-        System.out.println(Thread.currentThread().isVirtual());
 
         return ResponseResult.ok(esPaperService.searchAll(keyword, page, size));
     }

@@ -52,14 +52,14 @@ public interface PaperMapper {
      * @param lastUpdateTime
      * @return
      */
-    List<EsPaper> selectBeforeUpdateTime(Date lastUpdateTime);
+    List<EsPaper> selectBeforeUpdateTime(@Param("lastUpdateTime") Date lastUpdateTime,@Param("limit") int limit);
 
     /**
      *
      * @param lastCreateTime
      * @return
      */
-    List<EsPaper> selectBeforeCreateTime(Date lastCreateTime);
+    List<EsPaper> selectBeforeCreateTime(@Param("lastCreateTime") Date lastCreateTime,@Param("limit") int limit);
 
     List<String> selectTitlePage(@Param("offset") int offset,@Param("limit") int limit);
 }

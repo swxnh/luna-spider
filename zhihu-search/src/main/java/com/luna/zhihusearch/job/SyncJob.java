@@ -19,9 +19,9 @@ public class SyncJob {
 
     /**
      * 同步数据
-     * 每隔3小时的第30分钟同步一次
+     * 每隔20分钟同步一次
      */
-    @Scheduled(cron = "0 0 0/2 * * ?")
+    @Scheduled(cron = "0 0/20 * * * ?")
     public void syncData() {
         esPaperService.syncData();
     }

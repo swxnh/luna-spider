@@ -19,6 +19,8 @@
         <module>common</module>
         <module>zhihu-search</module>
         <module>gateway</module>
+        <module>log-server</module>
+        <module>log-client</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -27,7 +29,7 @@
         <spring.boot.version>3.1.5</spring.boot.version>
         <spring.cloud.version>2022.0.4</spring.cloud.version>
         <spring.cloud.alibaba.version>2022.0.0.0-RC2</spring.cloud.alibaba.version>
-        <luna.spider.version>0.0.1-SNAPSHOT</luna.spider.version>
+        <luna.version>0.0.1-SNAPSHOT</luna.version>
     </properties>
     <dependencies>
 
@@ -47,32 +49,17 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba.fastjson2</groupId>
-            <artifactId>fastjson2</artifactId>
-            <version>2.0.32</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
-
-        <!--        pgsql-->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+        </dependency>
+
+        <!-- hutool工具包 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
+            <version>5.8.15</version>
         </dependency>
 
 
@@ -85,7 +72,13 @@
             <dependency>
                 <groupId>com.luna</groupId>
                 <artifactId>common</artifactId>
-                <version>${luna.spider.version}</version>
+                <version>${luna.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.luna</groupId>
+                <artifactId>log-client</artifactId>
+                <version>${luna.version}</version>
             </dependency>
 
             <dependency>
@@ -109,6 +102,14 @@
                 <version>${spring.cloud.alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+
+            <!--        mybatis-->
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>3.0.1</version>
             </dependency>
         </dependencies>
 
@@ -146,7 +147,28 @@
                     </excludes>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <parameters>true</parameters>
+                </configuration>
+            </plugin>
         </plugins>
+
+        <!-- 编译后保留参数名 -->
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <parameters>true</parameters>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 
 </project>

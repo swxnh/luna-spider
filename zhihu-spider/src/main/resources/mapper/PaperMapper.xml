@@ -124,7 +124,7 @@
                            on tp.zhihu_member_id = tm.zhihu_member_id
         where tp.update_time > #{lastUpdateTime}
         order by tp.update_time
-        limit 1000
+        limit #{limit}
     </select>
 
     <select id="selectBeforeCreateTime" resultType="com.luna.common.pojo.zhihuspider.EsPaper">
@@ -139,7 +139,7 @@
                            on tp.zhihu_member_id = tm.zhihu_member_id
         where tp.create_time > #{lastCreateTime}
         order by tp.create_time
-        limit 1000
+        limit #{limit}
     </select>
     <select id="selectTitlePage" resultType="java.lang.String">
         select title from t_paper order by id asc limit #{limit} offset #{offset}

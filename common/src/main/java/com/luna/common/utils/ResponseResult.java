@@ -9,6 +9,7 @@ import org.springframework.javapoet.MethodSpec;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ResponseResult<T> {
+
     private Integer code;
     private String msg;
     private T data;
@@ -17,20 +18,13 @@ public class ResponseResult<T> {
 //     * 固定返回常量值
 //     * 添加常量时请在常量初始化区的静态代码块内使用内部枚举类进行初始化
 //      */
-    public static final ResponseResult<Void> LOGIN_SUCCESS;
-    public static final ResponseResult<Void> LOGIN_FAIL;
-    public static final ResponseResult<Void> NOT_LOGIN;
-    public static final ResponseResult<Void> NO_AUTH;
-    public static final ResponseResult<Void> LOGOUT_SUCCESS;
-
-    //常量初始化区
-    static {
-        LOGIN_SUCCESS = new ResponseResult<>(ResponseCodeEnum.LOGIN_SUCCESS);
-        LOGIN_FAIL = new ResponseResult<>(ResponseCodeEnum.LOGIN_FAIL);
-        NOT_LOGIN = new ResponseResult<>(ResponseCodeEnum.NOT_LOGIN);
-        NO_AUTH = new ResponseResult<>(ResponseCodeEnum.NO_AUTH);
-        LOGOUT_SUCCESS = new ResponseResult<>(ResponseCodeEnum.LOGOUT_SUCCESS);
-    }
+    public static final ResponseResult<Void> LOGIN_SUCCESS = new ResponseResult<>(ResponseCodeEnum.LOGIN_SUCCESS);
+    public static final ResponseResult<Void> LOGIN_FAIL = new ResponseResult<>(ResponseCodeEnum.LOGIN_FAIL);
+    public static final ResponseResult<Void> NOT_LOGIN = new ResponseResult<>(ResponseCodeEnum.NOT_LOGIN);
+    public static final ResponseResult<Void> NO_AUTH = new ResponseResult<>(ResponseCodeEnum.NO_AUTH);
+    public static final ResponseResult<Void> LOGOUT_SUCCESS = new ResponseResult<>(ResponseCodeEnum.LOGOUT_SUCCESS);
+    public static final ResponseResult<?> DELETE_SUCCESS = new ResponseResult<>(ResponseCodeEnum.DELETE_SUCCESS);
+    public static final ResponseResult<?> DELETE_FAIL = new ResponseResult<>(ResponseCodeEnum.DELETE_FAIL);
 
     public static <T> ResponseResult<T> message(Integer code,String msg,T t) {
         return new ResponseResult<>(code, msg,t);

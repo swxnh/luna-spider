@@ -58,15 +58,5 @@ public class FeignResultDecoder implements Decoder {
         return result.getData();
     }
 
-//    public static void main(String[] args) throws IOException {
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        //读取文件
-//        String string = Files.readString(Paths.get("C:\\Users\\文轩\\Desktop\\test.json"));
-//
-//        ResponseResult responseResult = objectMapper.readValue(string, ResponseResult.class);
-//
-//        System.out.println(responseResult);
-//
-//    }
 
 }

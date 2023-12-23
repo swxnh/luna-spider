@@ -24,14 +24,14 @@ public class ColumnServiceImpl implements ColumnService {
 
 
     @Override
-    public ResponseResult<List<EsPaper>> findBeforeCreateTime(Long createTime) {
-        List<EsPaper> esPaperList = paperMapper.selectBeforeCreateTime(new Date(createTime));
+    public ResponseResult<List<EsPaper>> findBeforeCreateTime(Long createTime, Integer size) {
+        List<EsPaper> esPaperList = paperMapper.selectBeforeCreateTime(new Date(createTime), size);
         return ResponseResult.ok(esPaperList);
     }
 
     @Override
-    public ResponseResult<List<EsPaper>> findBeforeUpdateTime(Long updateTime) {
-        List<EsPaper> esPaperList = paperMapper.selectBeforeUpdateTime(new Date(updateTime));
+    public ResponseResult<List<EsPaper>> findBeforeUpdateTime(Long updateTime, Integer size) {
+        List<EsPaper> esPaperList = paperMapper.selectBeforeUpdateTime(new Date(updateTime), size);
         return ResponseResult.ok(esPaperList);
     }
 }

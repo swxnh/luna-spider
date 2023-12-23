@@ -72,18 +72,6 @@ public abstract class BaseSpider<T extends BasePage<?>> implements Spider<T> {
         //解析并返回结果
 
         String result = response.body();
-//        替换windows换行符
-//        result = result.replaceAll("\r\n", "\n");
-//        try {
-//            objectMapper.readValue(result, getClazz());
-//            return objectMapper.readValue(result, getClazz());
-//        } catch (JsonProcessingException e) {
-//            log.error("json解析失败", e);
-//            return null;
-//        }
-
-//        System.out.println(result);
-        //转义
 
         return JSON.parseObject(result, getClazz());
     }
@@ -124,19 +112,28 @@ public abstract class BaseSpider<T extends BasePage<?>> implements Spider<T> {
         Map<String, String> cookieMap = new HashMap<>();
         String[] split = cookies.split(";");
         for (String s : split) {
-            String[] split1 = s.split("=");
-            cookieMap.put(split1[0], split1[1]);
+            //第一个=号之前的是key，之后的是value
+            int index = s.indexOf("=");
+            String key = s.substring(0, index);
+            String value = s.substring(index + 1);
+            cookieMap.put(key.trim(), value.trim());
+
         }
         for (String s : cookie.split(";")) {
-            String[] split1 = s.split("=");
-            cookieMap.put(split1[0], split1[1]);
+            //第一个=号之前的是key，之后的是value
+            int index = s.indexOf("=");
+            String key = s.substring(0, index);
+            String value = s.substring(index + 1);
+            cookieMap.put(key.trim(), value.trim());
         }
 //        cookieMap.remove("Path");
         //拼接
         StringBuilder sb = new StringBuilder();
         for (Map.Entry<String, String> entry : cookieMap.entrySet()) {
-            sb.append(entry.getKey()).append("=").append(entry.getValue()).append(";");
+            sb.append(entry.getKey()).append("=").append(entry.getValue()).append(";").append(" ");
         }
+        //去掉最后一个;
+        sb.deleteCharAt(sb.length() - 2);
         String newCookie = sb.toString();
         log.info("设置cookie: {}", newCookie);
         headers.put("Cookie", newCookie);

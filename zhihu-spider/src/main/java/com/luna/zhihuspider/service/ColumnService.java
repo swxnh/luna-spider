@@ -11,7 +11,7 @@ import java.util.List;
  * @author 文轩
  */
 public interface ColumnService {
-    ResponseResult<List<EsPaper>> findBeforeCreateTime(Long createTime);
+    ResponseResult<List<EsPaper>> findBeforeCreateTime(Long createTime, Integer size);
 
-    ResponseResult<List<EsPaper>> findBeforeUpdateTime(Long updateTime);
+    ResponseResult<List<EsPaper>> findBeforeUpdateTime(Long updateTime, Integer size);
 }
